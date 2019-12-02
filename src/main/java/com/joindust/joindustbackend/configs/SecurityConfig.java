@@ -1,6 +1,8 @@
 package com.joindust.joindustbackend.configs;
 
 import com.joindust.joindustbackend.security.CustomUserDetailsService;
+import com.joindust.joindustbackend.security.JwtAuthenticationEntryPoint;
+import com.joindust.joindustbackend.security.JwtAuthenticationFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(customUserDetailsService).passwordEnconder(passwordEncoder());
+    auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
   }
 
   @Bean(value = BeanIds.AUTHENTICATION_MANAGER)
