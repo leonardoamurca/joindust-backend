@@ -1,5 +1,7 @@
 package com.joindust.joindustbackend.configs;
 
+import com.joindust.joindustbackend.security.CustomUserDetailsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
