@@ -19,12 +19,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.joindust.joindustbackend.models.audits.DateAudit;
+
 import org.hibernate.annotations.NaturalId;
 
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
     @UniqueConstraint(columnNames = { "email" }) })
-public class User {
+public class User extends DateAudit {
+
+  private static final long serialVersionUID = 4651194649320610018L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
