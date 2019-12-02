@@ -83,6 +83,18 @@ public class User extends DateAudit {
     this.roles = roles;
   }
 
+  public User(@NotBlank @Size(max = 70) String corporateName, @NotBlank @Size(max = 15) String username,
+      @NotBlank @Size(max = 60) @Email String email, @NotBlank @Size(max = 100) String password, @NotNull String cnpj,
+      String phone) {
+    this.corporateName = corporateName;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.cnpj = cnpj;
+    this.phone = phone;
+
+  }
+
   public Long getId() {
     return id;
   }
