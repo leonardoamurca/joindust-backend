@@ -49,6 +49,10 @@ public class User extends DateAudit {
   @Email
   private String email;
 
+  @NotBlank
+  @Size(max = 100)
+  private String password;
+
   @NotNull
   @Column(length = 14)
   private String cnpj;
@@ -67,11 +71,12 @@ public class User extends DateAudit {
   }
 
   public User(@NotBlank @Size(max = 70) String corporateName, @NotBlank @Size(max = 15) String username,
-      @NotBlank @Size(max = 60) @Email String email, @NotNull String cnpj, String phone, String profileImage,
-      Set<Role> roles) {
+      @NotBlank @Size(max = 60) @Email String email, @NotBlank @Size(max = 100) String password, @NotNull String cnpj,
+      String phone, String profileImage, Set<Role> roles) {
     this.corporateName = corporateName;
     this.username = username;
     this.email = email;
+    this.password = password;
     this.cnpj = cnpj;
     this.phone = phone;
     this.profileImage = profileImage;
@@ -140,6 +145,14 @@ public class User extends DateAudit {
 
   public void setRoles(Set<Role> roles) {
     this.roles = roles;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
   }
 
 }
