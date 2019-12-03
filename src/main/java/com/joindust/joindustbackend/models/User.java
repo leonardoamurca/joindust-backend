@@ -87,6 +87,7 @@ public class User extends DateAudit {
     this.cnpj = cnpj;
     this.phone = phone;
     this.profileImage = profileImage;
+    // this.collections = collections;
     this.roles = roles;
   }
 

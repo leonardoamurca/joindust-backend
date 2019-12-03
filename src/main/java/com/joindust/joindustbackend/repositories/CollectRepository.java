@@ -24,6 +24,7 @@ public interface CollectRepository extends JpaRepository<Collect, Long> {
 
   Optional<Collect> findById(Long collectId);
 
-  Page<Collect> findByUser(Long userId, Pageable pageable);
+  Page<Collect> findByUserId(Long userId, Pageable pageable);
 
+  long countByUserId(Long userId);
 }
