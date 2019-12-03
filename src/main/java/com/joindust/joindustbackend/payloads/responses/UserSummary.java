@@ -4,13 +4,13 @@ public class UserSummary {
 
   private Long id;
   private String corporateName;
-  private String phone;
+  private String username;
   private String email;
 
-  public UserSummary(Long id, String corporateName, String phone, String email) {
+  public UserSummary(Long id, String corporateName, String username, String email) {
     this.id = id;
     this.corporateName = corporateName;
-    this.phone = phone;
+    this.username = username;
     this.email = email;
   }
 
@@ -30,20 +30,20 @@ public class UserSummary {
     this.corporateName = corporateName;
   }
 
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
   public String getEmail() {
     return email;
   }
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
   }
 
 }

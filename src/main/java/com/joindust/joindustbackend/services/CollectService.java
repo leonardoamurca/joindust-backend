@@ -58,7 +58,7 @@ public class CollectService {
         collections.getTotalElements(), collections.getTotalPages(), collections.isLast());
   }
 
-  public PagedResponse<CollectResponse> getCollectionsCreatedBy(String username, UserPrincipal currentUser, int page,
+  public PagedResponse<CollectResponse> getCollectionsByUsername(String username, UserPrincipal currentUser, int page,
       int size) {
     validatePageNumberAndSize(page, size);
 
@@ -67,7 +67,7 @@ public class CollectService {
 
     // Retrieve all polls created by the given username
     Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
-    Page<Collect> collections = collectRepository.findByUser(user.getId(), pageable);
+    Page<Collect> collections = collectRepository.findByUserId(user.getId(), pageable);
 
     if (collections.getNumberOfElements() == 0) {
       return new PagedResponse<>(Collections.emptyList(), collections.getNumber(), collections.getSize(),
