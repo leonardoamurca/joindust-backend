@@ -13,7 +13,7 @@ import javax.persistence.UniqueConstraint;
 import com.joindust.joindustbackend.models.audits.DateAudit;
 
 @Entity
-@Table(name = "collections", uniqueConstraints = { @UniqueConstraint(columnNames = { "user_id" }) })
+@Table(name = "collections")
 public class Collect extends DateAudit {
 
   private static final long serialVersionUID = -7650518718794005628L;
