@@ -1,6 +1,7 @@
 package com.joindust.joindustbackend.models;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -68,6 +69,10 @@ public class User extends DateAudit {
 
   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonManagedReference
+  private Set<Contact> contacts = new HashSet<>();
+
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonManagedReference
   private Set<Collect> collections = new HashSet<>();
 
   @ManyToMany(fetch = FetchType.LAZY)
@@ -79,7 +84,7 @@ public class User extends DateAudit {
 
   public User(@NotBlank @Size(max = 70) String corporateName, @NotBlank @Size(max = 15) String username,
       @NotBlank @Size(max = 60) @Email String email, @NotBlank @Size(max = 100) String password, @NotNull String cnpj,
-      String phone, String profileImage, Set<Role> roles) {
+      String phone, String profileImage, Set<Role> roles, Set<Contact> contacts) {
     this.corporateName = corporateName;
     this.username = username;
     this.email = email;
@@ -87,8 +92,8 @@ public class User extends DateAudit {
     this.cnpj = cnpj;
     this.phone = phone;
     this.profileImage = profileImage;
-    // this.collections = collections;
     this.roles = roles;
+    this.contacts = contacts;
   }
 
   public User(@NotBlank @Size(max = 70) String corporateName, @NotBlank @Size(max = 15) String username,
@@ -173,6 +178,22 @@ public class User extends DateAudit {
 
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  public Set<Contact> getContacts() {
+    return contacts;
+  }
+
+  public void setContacts(Set<Contact> contacts) {
+    this.contacts = contacts;
+  }
+
+  public Set<Collect> getCollections() {
+    return collections;
+  }
+
+  public void setCollections(Set<Collect> collections) {
+    this.collections = collections;
   }
 
 }
