@@ -30,6 +30,15 @@ public class Collect extends DateAudit {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
+  public Collect(Double quantity, Double price, User user) {
+    this.quantity = quantity;
+    this.price = price;
+    this.user = user;
+  }
+
+  public Collect() {
+  }
+
   public Long getId() {
     return id;
   }
