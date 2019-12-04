@@ -36,8 +36,11 @@ import org.springframework.web.bind.annotation.RestController;
 ///import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/api/collections")
+@Api(value = "Collect", description = "REST API for Collect", tags = { "Collect" })
 public class CollectController {
 
   @Autowired

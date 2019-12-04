@@ -31,7 +31,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import io.swagger.annotations.Api;
+
 @RestController
+@Api(value = "Authentication", description = "REST API for Authentication", tags = { "Authentication" })
 @RequestMapping("/api/auth")
 public class AuthController {
 
