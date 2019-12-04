@@ -37,8 +37,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/api/users")
+@Api(value = "User", description = "REST API for User", tags = { "User" })
 public class UserController {
 
   @Autowired
