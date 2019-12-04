@@ -111,10 +111,10 @@ public class UserController {
   }
 
   // TODO: Do just like the example above
-  @PostMapping("/contacts")
+  @PostMapping("/{username}/contacts")
   @PreAuthorize("hasRole('ROLE_RECYCLER')")
   public ResponseEntity<?> createCollect(@Valid @RequestBody ContactRequest contactRequest,
-      @CurrentUser UserPrincipal currentUser) {
+      @CurrentUser UserPrincipal currentUser, @PathVariable(value = "username") String username) {
     Contact contact = contactService.createContact(currentUser, contactRequest);
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{contactId}").buildAndExpand(contact.getId())
