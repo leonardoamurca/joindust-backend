@@ -11,6 +11,7 @@ import com.joindust.joindustbackend.payloads.requests.ContactRequest;
 import com.joindust.joindustbackend.payloads.responses.ApiResponse;
 import com.joindust.joindustbackend.payloads.responses.CollectResponse;
 import com.joindust.joindustbackend.payloads.responses.ContactResponse;
+import com.joindust.joindustbackend.payloads.responses.DeletedResponse;
 import com.joindust.joindustbackend.payloads.responses.PagedResponse;
 import com.joindust.joindustbackend.payloads.responses.UserIdentityAvailability;
 import com.joindust.joindustbackend.payloads.responses.UserProfileReponse;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -123,6 +125,12 @@ public class UserController {
         .toUri();
 
     return ResponseEntity.created(location).body(new ApiResponse(true, "Contact Created Successfully"));
+  }
+
+  @DeleteMapping("/{contactId}")
+  @PreAuthorize("hasRole('ROLE_RECYCLER')")
+  public DeletedResponse deleteCollectById(@CurrentUser UserPrincipal currentUser, @PathVariable Long contactId) {
+    return collectService.deleteCollectById(contactId, currentUser);
   }
 
 }

@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 import com.joindust.joindustbackend.exceptions.BadRequestException;
-
+import com.joindust.joindustbackend.exceptions.ResourceNotFoundException;
 import com.joindust.joindustbackend.models.Contact;
 import com.joindust.joindustbackend.models.User;
 import com.joindust.joindustbackend.payloads.requests.ContactRequest;
 import com.joindust.joindustbackend.payloads.responses.ContactResponse;
+import com.joindust.joindustbackend.payloads.responses.DeletedResponse;
 import com.joindust.joindustbackend.payloads.responses.PagedResponse;
 import com.joindust.joindustbackend.repositories.ContactRepository;
 import com.joindust.joindustbackend.repositories.UserRepository;
@@ -82,4 +83,13 @@ public class ContactService {
     }
   }
 
+  public DeletedResponse deleteContactById(Long contactId, UserPrincipal currentUser) {
+
+    Contact contact = contactRepository.findById(contactId)
+        .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", contactId));
+
+    contactRepository.deleteById(contact.getId());
+
+    return new DeletedResponse(contact.getId(), "Contact deleted successfully!");
+  }
 }
