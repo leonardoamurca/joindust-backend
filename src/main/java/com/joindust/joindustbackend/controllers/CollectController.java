@@ -8,6 +8,7 @@ import com.joindust.joindustbackend.models.Collect;
 import com.joindust.joindustbackend.payloads.requests.CollectRequest;
 import com.joindust.joindustbackend.payloads.responses.ApiResponse;
 import com.joindust.joindustbackend.payloads.responses.CollectResponse;
+import com.joindust.joindustbackend.payloads.responses.DeletedResponse;
 import com.joindust.joindustbackend.payloads.responses.PagedResponse;
 import com.joindust.joindustbackend.repositories.CollectRepository;
 import com.joindust.joindustbackend.repositories.UserRepository;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 // import org.springframework.http.ResponseEntity;
 // import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,7 +64,7 @@ public class CollectController {
   }
 
   @PostMapping
-  @PreAuthorize("hasRole('PRODUCER')")
+  @PreAuthorize("hasRole('ROLE_PRODUCER')")
   public ResponseEntity<?> createCollect(@Valid @RequestBody CollectRequest collectRequest) {
     Collect collect = collectService.createCollect(collectRequest);
 
@@ -73,8 +75,13 @@ public class CollectController {
   }
 
   @GetMapping("/{collectId}")
-  public CollectResponse getPollById(@CurrentUser UserPrincipal currentUser, @PathVariable Long collectId) {
+  public CollectResponse getCollectById(@CurrentUser UserPrincipal currentUser, @PathVariable Long collectId) {
     return collectService.getCollectById(collectId, currentUser);
   }
 
+  @DeleteMapping("/{collectId}")
+  @PreAuthorize("hasRole('ROLE_PRODUCER')")
+  public DeletedResponse deleteCollectById(@CurrentUser UserPrincipal currentUser, @PathVariable Long collectId) {
+    return collectService.deleteCollectById(collectId, currentUser);
+  }
 }

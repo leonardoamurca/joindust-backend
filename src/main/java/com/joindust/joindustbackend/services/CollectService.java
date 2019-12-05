@@ -10,6 +10,7 @@ import com.joindust.joindustbackend.models.Collect;
 import com.joindust.joindustbackend.models.User;
 import com.joindust.joindustbackend.payloads.requests.CollectRequest;
 import com.joindust.joindustbackend.payloads.responses.CollectResponse;
+import com.joindust.joindustbackend.payloads.responses.DeletedResponse;
 import com.joindust.joindustbackend.payloads.responses.PagedResponse;
 import com.joindust.joindustbackend.repositories.CollectRepository;
 import com.joindust.joindustbackend.repositories.UserRepository;
@@ -114,4 +115,14 @@ public class CollectService {
 
     return ModelMapper.mapCollectToCollectReponse(collect, creator);
   }
+
+  public DeletedResponse deleteCollectById(Long collectId, UserPrincipal currentUser) {
+    Collect collect = collectRepository.findById(collectId)
+        .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", collectId));
+
+    collectRepository.deleteById(collect.getId());
+
+    return new DeletedResponse(collect.getId(), "Collect deleted successfully!");
+  }
+
 }

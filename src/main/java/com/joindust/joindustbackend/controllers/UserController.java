@@ -113,10 +113,9 @@ public class UserController {
     return contactService.getAllContacts(currentUser, page, size);
   }
 
-  // TODO: Do just like the example above
   @PostMapping("/{username}/contacts")
   @PreAuthorize("hasRole('ROLE_RECYCLER')")
-  public ResponseEntity<?> createCollect(@Valid @RequestBody ContactRequest contactRequest,
+  public ResponseEntity<?> createContact(@Valid @RequestBody ContactRequest contactRequest,
       @CurrentUser UserPrincipal currentUser, @PathVariable(value = "username") String username) {
     Contact contact = contactService.createContact(currentUser, contactRequest);
 
