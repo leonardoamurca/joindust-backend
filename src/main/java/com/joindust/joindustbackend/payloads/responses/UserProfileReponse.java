@@ -1,6 +1,9 @@
 package com.joindust.joindustbackend.payloads.responses;
 
 import java.time.Instant;
+import java.util.Set;
+
+import com.joindust.joindustbackend.models.Role;
 
 public class UserProfileReponse {
 
@@ -22,8 +25,10 @@ public class UserProfileReponse {
 
   private String profileImage;
 
+  private Set<Role> roles;
+
   public UserProfileReponse(Long id, String corporateName, String username, String email, Instant joinedAt, String cnpj,
-      String phone, Long collectionsCount, String profileImage) {
+      String phone, Long collectionsCount, String profileImage, Set<Role> roles) {
     this.id = id;
     this.corporateName = corporateName;
     this.username = username;
@@ -33,6 +38,7 @@ public class UserProfileReponse {
     this.phone = phone;
     this.collectionsCount = collectionsCount;
     this.profileImage = profileImage;
+    this.roles = roles;
   }
 
   public Long getId() {
@@ -105,6 +111,14 @@ public class UserProfileReponse {
 
   public void setProfileImage(String profileImage) {
     this.profileImage = profileImage;
+  }
+
+  public Set<Role> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(Set<Role> roles) {
+    this.roles = roles;
   }
 
 }

@@ -88,8 +88,8 @@ public class UserController {
     long collectionsCount = collectRepository.countByUserId(user.getId());
 
     UserProfileReponse userProfile = new UserProfileReponse(user.getId(), user.getCorporateName(), user.getUsername(),
-        user.getEmail(), user.getCreatedAt(), user.getCnpj(), user.getPhone(), collectionsCount,
-        user.getProfileImage());
+        user.getEmail(), user.getCreatedAt(), user.getCnpj(), user.getPhone(), collectionsCount, user.getProfileImage(),
+        user.getRoles());
 
     return userProfile;
   }
