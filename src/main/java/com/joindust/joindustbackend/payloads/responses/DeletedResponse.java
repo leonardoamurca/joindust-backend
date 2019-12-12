@@ -1,6 +1,7 @@
 package com.joindust.joindustbackend.payloads.responses;
 
 public class DeletedResponse {
+
   private Long collectId;
   private String message;
 

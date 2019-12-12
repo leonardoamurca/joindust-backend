@@ -1,6 +1,7 @@
 package com.joindust.joindustbackend.payloads.responses;
 
 public class CollectResponse {
+
   private Long id;
   private Double quantity;
   private Double price;

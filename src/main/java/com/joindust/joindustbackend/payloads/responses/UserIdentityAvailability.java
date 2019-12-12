@@ -1,6 +1,7 @@
 package com.joindust.joindustbackend.payloads.responses;
 
 public class UserIdentityAvailability {
+
   private Boolean available;
 
   public UserIdentityAvailability(Boolean available) {

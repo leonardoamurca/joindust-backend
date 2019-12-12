@@ -1,6 +1,7 @@
 package com.joindust.joindustbackend.payloads.responses;
 
 public class ApiResponse {
+
   private Boolean success;
   private String message;
 

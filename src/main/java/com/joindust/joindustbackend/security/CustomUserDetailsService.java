@@ -1,15 +1,14 @@
 package com.joindust.joindustbackend.security;
 
-
-import com.joindust.joindustbackend.models.User;
-import com.joindust.joindustbackend.repositories.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.joindust.joindustbackend.models.User;
+import com.joindust.joindustbackend.repositories.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {

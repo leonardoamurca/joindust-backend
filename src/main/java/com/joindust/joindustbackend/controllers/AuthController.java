@@ -2,20 +2,8 @@ package com.joindust.joindustbackend.controllers;
 
 import java.net.URI;
 import java.util.Collections;
-
 import javax.validation.Valid;
-
-import com.joindust.joindustbackend.exceptions.AppException;
-import com.joindust.joindustbackend.models.Role;
-import com.joindust.joindustbackend.models.User;
-import com.joindust.joindustbackend.payloads.requests.LoginRequest;
-import com.joindust.joindustbackend.payloads.requests.SignUpRequest;
-import com.joindust.joindustbackend.payloads.responses.ApiResponse;
-import com.joindust.joindustbackend.payloads.responses.JwtAuthenticationResponse;
-import com.joindust.joindustbackend.repositories.RoleRepository;
-import com.joindust.joindustbackend.repositories.UserRepository;
-import com.joindust.joindustbackend.security.JwtTokenProvider;
-import com.joindust.joindustbackend.utils.RoleName;
+import io.swagger.annotations.Api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +19,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import io.swagger.annotations.Api;
+import com.joindust.joindustbackend.exceptions.AppException;
+import com.joindust.joindustbackend.models.Role;
+import com.joindust.joindustbackend.models.User;
+import com.joindust.joindustbackend.payloads.requests.LoginRequest;
+import com.joindust.joindustbackend.payloads.requests.SignUpRequest;
+import com.joindust.joindustbackend.payloads.responses.ApiResponse;
+import com.joindust.joindustbackend.payloads.responses.JwtAuthenticationResponse;
+import com.joindust.joindustbackend.repositories.RoleRepository;
+import com.joindust.joindustbackend.repositories.UserRepository;
+import com.joindust.joindustbackend.security.JwtTokenProvider;
+import com.joindust.joindustbackend.utils.RoleName;
 
 @RestController
 @Api(value = "Authentication", description = "REST API for Authentication", tags = { "Authentication" })

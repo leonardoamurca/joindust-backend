@@ -1,9 +1,9 @@
 package com.joindust.joindustbackend.repositories;
 
-import com.joindust.joindustbackend.models.Contact;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.joindust.joindustbackend.models.Contact;
 
 @Repository
 public interface ContactRepository extends JpaRepository<Contact, Long> {

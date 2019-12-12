@@ -8,23 +8,14 @@ import com.joindust.joindustbackend.models.Role;
 public class UserProfileReponse {
 
   private Long id;
-
   private String corporateName;
-
   private String username;
-
   private String email;
-
   private Instant joinedAt;
-
   private String cnpj;
-
   private String phone;
-
   private Long collectionsCount;
-
   private String profileImage;
-
   private Set<Role> roles;
 
   public UserProfileReponse(Long id, String corporateName, String username, String email, Instant joinedAt, String cnpj,

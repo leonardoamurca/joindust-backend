@@ -1,9 +1,5 @@
 package com.joindust.joindustbackend.configs;
 
-import com.joindust.joindustbackend.security.CustomUserDetailsService;
-import com.joindust.joindustbackend.security.JwtAuthenticationEntryPoint;
-import com.joindust.joindustbackend.security.JwtAuthenticationFilter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,10 +17,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.joindust.joindustbackend.security.CustomUserDetailsService;
+import com.joindust.joindustbackend.security.JwtAuthenticationEntryPoint;
+import com.joindust.joindustbackend.security.JwtAuthenticationFilter;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
   @Autowired
   CustomUserDetailsService customUserDetailsService;
 
@@ -65,7 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
         .antMatchers(HttpMethod.GET, "/api/collections/**", "/api/users/**").permitAll().anyRequest().authenticated();
 
-    // Add our custom JWT security filter
     http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
   }

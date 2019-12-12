@@ -1,6 +1,7 @@
 package com.joindust.joindustbackend.payloads.responses;
 
 public class JwtAuthenticationResponse {
+
   private String accessToken;
   private String tokenType = "Bearer";
 

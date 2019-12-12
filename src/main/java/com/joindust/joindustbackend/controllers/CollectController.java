@@ -1,8 +1,22 @@
 package com.joindust.joindustbackend.controllers;
 
 import java.net.URI;
-
 import javax.validation.Valid;
+import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.joindust.joindustbackend.models.Collect;
 import com.joindust.joindustbackend.payloads.requests.CollectRequest;
@@ -10,46 +24,15 @@ import com.joindust.joindustbackend.payloads.responses.ApiResponse;
 import com.joindust.joindustbackend.payloads.responses.CollectResponse;
 import com.joindust.joindustbackend.payloads.responses.DeletedResponse;
 import com.joindust.joindustbackend.payloads.responses.PagedResponse;
-import com.joindust.joindustbackend.repositories.CollectRepository;
-import com.joindust.joindustbackend.repositories.UserRepository;
 import com.joindust.joindustbackend.security.CurrentUser;
 import com.joindust.joindustbackend.security.UserPrincipal;
 import com.joindust.joindustbackend.services.CollectService;
 import com.joindust.joindustbackend.utils.AppConstants;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-///import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import io.swagger.annotations.Api;
-
 @RestController
 @RequestMapping("/api/collections")
 @Api(value = "Collect", description = "REST API for Collect", tags = { "Collect" })
 public class CollectController {
-
-  @Autowired
-  private CollectRepository collectRepository;
-
-  @Autowired
-  private UserRepository userRepository;
 
   @Autowired
   private CollectService collectService;

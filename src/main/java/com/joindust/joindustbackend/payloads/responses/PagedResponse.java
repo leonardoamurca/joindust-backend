@@ -12,7 +12,6 @@ public class PagedResponse<T> {
   private boolean last;
 
   public PagedResponse() {
-
   }
 
   public PagedResponse(List<T> content, int page, int size, long totalElements, int totalPages, boolean last) {

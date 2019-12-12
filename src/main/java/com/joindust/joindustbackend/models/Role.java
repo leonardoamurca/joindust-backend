@@ -1,5 +1,7 @@
 package com.joindust.joindustbackend.models;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.joindust.joindustbackend.utils.RoleName;
-
-import org.hibernate.annotations.NaturalId;
 
 @Entity
 @Table(name = "roles")

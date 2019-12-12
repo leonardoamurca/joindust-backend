@@ -1,5 +1,7 @@
 package com.joindust.joindustbackend.models;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,13 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.joindust.joindustbackend.models.audits.DateAudit;
-
-import org.hibernate.annotations.NaturalId;
 
 @Entity
 @Table(name = "contacts")
