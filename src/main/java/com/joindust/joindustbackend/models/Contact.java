@@ -2,6 +2,10 @@ package com.joindust.joindustbackend.models;
 
 import org.hibernate.annotations.NaturalId;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +24,9 @@ import com.joindust.joindustbackend.models.audits.DateAudit;
 
 @Entity
 @Table(name = "contacts")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Contact extends DateAudit {
 
   private static final long serialVersionUID = -3863017794181855748L;
@@ -44,55 +51,11 @@ public class Contact extends DateAudit {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  public Contact() {
-
-  }
-
   public Contact(@Size(max = 70) String corporateName, @NotBlank @Size(max = 60) @Email String email, String phone,
       User user) {
     this.corporateName = corporateName;
     this.email = email;
     this.phone = phone;
-    this.user = user;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getCorporateName() {
-    return corporateName;
-  }
-
-  public void setCorporateName(String corporateName) {
-    this.corporateName = corporateName;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
     this.user = user;
   }
 

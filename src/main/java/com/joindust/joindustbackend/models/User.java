@@ -26,11 +26,18 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.NaturalId;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import com.joindust.joindustbackend.models.audits.DateAudit;
 
 @Entity
 @Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
     @UniqueConstraint(columnNames = { "email" }) })
+@Getter
+@Setter
+@NoArgsConstructor
 public class User extends DateAudit {
 
   private static final long serialVersionUID = 4651194649320610018L;
@@ -80,9 +87,6 @@ public class User extends DateAudit {
   @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
-  public User() {
-  }
-
   public User(@NotBlank @Size(max = 70) String corporateName, @NotBlank @Size(max = 15) String username,
       @NotBlank @Size(max = 60) @Email String email, @NotBlank @Size(max = 100) String password, @NotNull String cnpj,
       String phone, String profileImage, Set<Role> roles, Set<Contact> contacts) {
@@ -107,94 +111,6 @@ public class User extends DateAudit {
     this.cnpj = cnpj;
     this.phone = phone;
 
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getCorporateName() {
-    return corporateName;
-  }
-
-  public void setCorporateName(String corporateName) {
-    this.corporateName = corporateName;
-  }
-
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getCnpj() {
-    return cnpj;
-  }
-
-  public void setCnpj(String cnpj) {
-    this.cnpj = cnpj;
-  }
-
-  public String getPhone() {
-    return phone;
-  }
-
-  public void setPhone(String phone) {
-    this.phone = phone;
-  }
-
-  public String getProfileImage() {
-    return profileImage;
-  }
-
-  public void setProfileImage(String profileImage) {
-    this.profileImage = profileImage;
-  }
-
-  public Set<Role> getRoles() {
-    return roles;
-  }
-
-  public void setRoles(Set<Role> roles) {
-    this.roles = roles;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public Set<Contact> getContacts() {
-    return contacts;
-  }
-
-  public void setContacts(Set<Contact> contacts) {
-    this.contacts = contacts;
-  }
-
-  public Set<Collect> getCollections() {
-    return collections;
-  }
-
-  public void setCollections(Set<Collect> collections) {
-    this.collections = collections;
   }
 
 }
