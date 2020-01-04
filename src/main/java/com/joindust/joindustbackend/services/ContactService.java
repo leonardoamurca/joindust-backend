@@ -30,13 +30,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class ContactService {
 
-  @Autowired
-  private ContactRepository contactRepository;
+  private final ContactRepository contactRepository;
 
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
   private static final Logger logger = LoggerFactory.getLogger(CollectService.class);
+
+  public ContactService(ContactRepository contactRepository, UserRepository userRepository) {
+    this.contactRepository = contactRepository;
+    this.userRepository = userRepository;
+  }
 
   public PagedResponse<ContactResponse> getAllContacts(UserPrincipal currentUser, int page, int size) {
     validatePageNumberAndSize(page, size);
@@ -46,16 +49,14 @@ public class ContactService {
     Page<Contact> contacts = contactRepository.findAll(pageable);
 
     if (contacts.getNumberOfElements() == 0) {
-      return new PagedResponse<>(Collections.emptyList(), contacts.getNumber(), contacts.getSize(),
-          contacts.getTotalElements(), contacts.getTotalPages(), contacts.isLast());
+      return new PagedResponse<>(Collections.emptyList(), contacts.getNumber(), contacts.getSize(), contacts.getTotalElements(), contacts.getTotalPages(), contacts.isLast());
     }
 
     List<ContactResponse> contactsResponses = contacts.map(contact -> {
       return ModelMapper.mapContactToContactReponse(contact, contact.getUser());
     }).getContent();
 
-    return new PagedResponse<>(contactsResponses, contacts.getNumber(), contacts.getSize(), contacts.getTotalElements(),
-        contacts.getTotalPages(), contacts.isLast());
+    return new PagedResponse<>(contactsResponses, contacts.getNumber(), contacts.getSize(), contacts.getTotalElements(), contacts.getTotalPages(), contacts.isLast());
   }
 
   public Contact createContact(UserPrincipal currentUser, ContactRequest contactRequest) {
@@ -85,8 +86,7 @@ public class ContactService {
 
   public DeletedResponse deleteContactById(Long contactId, UserPrincipal currentUser) {
 
-    Contact contact = contactRepository.findById(contactId)
-        .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", contactId));
+    Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new ResourceNotFoundException("Poll", "id", contactId));
 
     contactRepository.deleteById(contact.getId());
 

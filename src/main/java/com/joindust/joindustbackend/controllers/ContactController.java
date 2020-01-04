@@ -23,8 +23,11 @@ import java.net.URI;
 @RequestMapping ("/api/contacts")
 public class ContactController {
 
-  @Autowired
-  private ContactService contactService;
+  private final ContactService contactService;
+
+  public ContactController(ContactService contactService) {
+    this.contactService = contactService;
+  }
 
   @PreAuthorize ("hasRole('ROLE_RECYCLER')")
   @GetMapping

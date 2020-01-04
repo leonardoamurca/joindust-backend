@@ -2,6 +2,7 @@ package com.joindust.joindustbackend.controllers;
 
 import java.net.URI;
 import javax.validation.Valid;
+
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,40 +31,40 @@ import com.joindust.joindustbackend.services.CollectService;
 import com.joindust.joindustbackend.utils.AppConstants;
 
 @RestController
-@RequestMapping("/api/collections")
-@Api(value = "Collect", description = "REST API for Collect", tags = { "Collect" })
+@RequestMapping ("/api/collections")
+@Api (value = "Collect", description = "REST API for Collect", tags = {"Collect"})
 public class CollectController {
 
-  @Autowired
-  private CollectService collectService;
+  private final CollectService collectService;
 
   private static final Logger logger = LoggerFactory.getLogger(CollectController.class);
 
+  public CollectController(CollectService collectService) {
+    this.collectService = collectService;
+  }
+
   @GetMapping
-  public PagedResponse<CollectResponse> getCollections(@CurrentUser UserPrincipal currentUser,
-      @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-      @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+  public PagedResponse<CollectResponse> getCollections(@CurrentUser UserPrincipal currentUser, @RequestParam (value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page, @RequestParam (value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
     return collectService.getAllCollections(currentUser, page, size);
   }
 
   @PostMapping
-  @PreAuthorize("hasRole('ROLE_PRODUCER')")
+  @PreAuthorize ("hasRole('ROLE_PRODUCER')")
   public ResponseEntity<?> createCollect(@Valid @RequestBody CollectRequest collectRequest) {
     Collect collect = collectService.createCollect(collectRequest);
 
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{collectId}").buildAndExpand(collect.getId())
-        .toUri();
+    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{collectId}").buildAndExpand(collect.getId()).toUri();
 
     return ResponseEntity.created(location).body(new ApiResponse(true, "Collect Created Successfully"));
   }
 
-  @GetMapping("/{collectId}")
+  @GetMapping ("/{collectId}")
   public CollectResponse getCollectById(@CurrentUser UserPrincipal currentUser, @PathVariable Long collectId) {
     return collectService.getCollectById(collectId, currentUser);
   }
 
-  @DeleteMapping("/{collectId}")
-  @PreAuthorize("hasRole('ROLE_PRODUCER')")
+  @DeleteMapping ("/{collectId}")
+  @PreAuthorize ("hasRole('ROLE_PRODUCER')")
   public DeletedResponse deleteCollectById(@CurrentUser UserPrincipal currentUser, @PathVariable Long collectId) {
     return collectService.deleteCollectById(collectId, currentUser);
   }

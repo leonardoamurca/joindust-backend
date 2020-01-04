@@ -30,13 +30,16 @@ import com.joindust.joindustbackend.utils.ModelMapper;
 @Service
 public class CollectService {
 
-  @Autowired
-  private CollectRepository collectRepository;
+  private final CollectRepository collectRepository;
 
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
   private static final Logger logger = LoggerFactory.getLogger(CollectService.class);
+
+  public CollectService(CollectRepository collectRepository, UserRepository userRepository) {
+    this.collectRepository = collectRepository;
+    this.userRepository = userRepository;
+  }
 
   public PagedResponse<CollectResponse> getAllCollections(UserPrincipal currentUser, int page, int size) {
     validatePageNumberAndSize(page, size);
@@ -46,40 +49,34 @@ public class CollectService {
     Page<Collect> collections = collectRepository.findAll(pageable);
 
     if (collections.getNumberOfElements() == 0) {
-      return new PagedResponse<>(Collections.emptyList(), collections.getNumber(), collections.getSize(),
-          collections.getTotalElements(), collections.getTotalPages(), collections.isLast());
+      return new PagedResponse<>(Collections.emptyList(), collections.getNumber(), collections.getSize(), collections.getTotalElements(), collections.getTotalPages(), collections.isLast());
     }
 
     List<CollectResponse> collectionsResponses = collections.map(collect -> {
       return ModelMapper.mapCollectToCollectReponse(collect, collect.getUser());
     }).getContent();
 
-    return new PagedResponse<>(collectionsResponses, collections.getNumber(), collections.getSize(),
-        collections.getTotalElements(), collections.getTotalPages(), collections.isLast());
+    return new PagedResponse<>(collectionsResponses, collections.getNumber(), collections.getSize(), collections.getTotalElements(), collections.getTotalPages(), collections.isLast());
   }
 
-  public PagedResponse<CollectResponse> getCollectionsByUsername(String username, UserPrincipal currentUser, int page,
-      int size) {
+  public PagedResponse<CollectResponse> getCollectionsByUsername(String username, UserPrincipal currentUser, int page, int size) {
     validatePageNumberAndSize(page, size);
 
-    User user = userRepository.findByUsername(username)
-        .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+    User user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
 
     // Retrieve all polls created by the given username
     Pageable pageable = PageRequest.of(page, size, Sort.Direction.DESC, "createdAt");
     Page<Collect> collections = collectRepository.findByUserId(user.getId(), pageable);
 
     if (collections.getNumberOfElements() == 0) {
-      return new PagedResponse<>(Collections.emptyList(), collections.getNumber(), collections.getSize(),
-          collections.getTotalElements(), collections.getTotalPages(), collections.isLast());
+      return new PagedResponse<>(Collections.emptyList(), collections.getNumber(), collections.getSize(), collections.getTotalElements(), collections.getTotalPages(), collections.isLast());
     }
 
     List<CollectResponse> collectResponses = collections.map(collect -> {
       return ModelMapper.mapCollectToCollectReponse(collect, collect.getUser());
     }).getContent();
 
-    return new PagedResponse<>(collectResponses, collections.getNumber(), collections.getSize(),
-        collections.getTotalElements(), collections.getTotalPages(), collections.isLast());
+    return new PagedResponse<>(collectResponses, collections.getNumber(), collections.getSize(), collections.getTotalElements(), collections.getTotalPages(), collections.isLast());
   }
 
   private void validatePageNumberAndSize(int page, int size) {
@@ -106,19 +103,16 @@ public class CollectService {
   }
 
   public CollectResponse getCollectById(Long collectId, UserPrincipal currentUser) {
-    Collect collect = collectRepository.findById(collectId)
-        .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", collectId));
+    Collect collect = collectRepository.findById(collectId).orElseThrow(() -> new ResourceNotFoundException("Poll", "id", collectId));
 
     // Retrieve poll creator details
-    User creator = userRepository.findById(collect.getUser().getId())
-        .orElseThrow(() -> new ResourceNotFoundException("User", "id", collect.getUser().getId()));
+    User creator = userRepository.findById(collect.getUser().getId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", collect.getUser().getId()));
 
     return ModelMapper.mapCollectToCollectReponse(collect, creator);
   }
 
   public DeletedResponse deleteCollectById(Long collectId, UserPrincipal currentUser) {
-    Collect collect = collectRepository.findById(collectId)
-        .orElseThrow(() -> new ResourceNotFoundException("Poll", "id", collectId));
+    Collect collect = collectRepository.findById(collectId).orElseThrow(() -> new ResourceNotFoundException("Poll", "id", collectId));
 
     collectRepository.deleteById(collect.getId());
 

@@ -23,29 +23,31 @@ import com.joindust.joindustbackend.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@EnableGlobalMethodSecurity (securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Autowired
-  CustomUserDetailsService customUserDetailsService;
+  final CustomUserDetailsService customUserDetailsService;
 
-  @Autowired
-  private JwtAuthenticationEntryPoint unauthorizedHandler;
+  private final JwtAuthenticationEntryPoint unauthorizedHandler;
+
+  public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthenticationEntryPoint unauthorizedHandler) {
+    this.customUserDetailsService = customUserDetailsService;
+    this.unauthorizedHandler = unauthorizedHandler;
+  }
 
   @Bean
   public JwtAuthenticationFilter jwtAuthenticationFilter() {
     return new JwtAuthenticationFilter();
   }
 
-  private static final String[] AUTH_WHITELIST = { "/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs",
-      "/webjars/**" };
+  private static final String[] AUTH_WHITELIST = {"/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**"};
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
   }
 
-  @Bean(value = BeanIds.AUTHENTICATION_MANAGER)
+  @Bean (value = BeanIds.AUTHENTICATION_MANAGER)
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
@@ -58,13 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-        .antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css",
-            "/**/*.js")
-        .permitAll().antMatchers("/api/auth/**").permitAll()
-        .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll()
-        .antMatchers(HttpMethod.GET, "/api/collections/**", "/api/users/**").permitAll().anyRequest().authenticated();
+    http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js").permitAll().antMatchers("/api/auth/**").permitAll().antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability").permitAll().antMatchers(HttpMethod.GET, "/api/collections/**", "/api/users/**").permitAll().anyRequest().authenticated();
 
     http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

@@ -3,6 +3,7 @@ package com.joindust.joindustbackend.controllers;
 import java.net.URI;
 import java.util.Collections;
 import javax.validation.Valid;
+
 import io.swagger.annotations.Api;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,30 +33,32 @@ import com.joindust.joindustbackend.security.JwtTokenProvider;
 import com.joindust.joindustbackend.utils.RoleName;
 
 @RestController
-@Api(value = "Authentication", description = "REST API for Authentication", tags = { "Authentication" })
-@RequestMapping("/api/auth")
+@Api (value = "Authentication", description = "REST API for Authentication", tags = {"Authentication"})
+@RequestMapping ("/api/auth")
 public class AuthController {
 
-  @Autowired
-  AuthenticationManager authenticationManager;
+  final AuthenticationManager authenticationManager;
 
-  @Autowired
-  UserRepository userRepository;
+  final UserRepository userRepository;
 
-  @Autowired
-  RoleRepository roleRepository;
+  final RoleRepository roleRepository;
 
-  @Autowired
-  PasswordEncoder passwordEncoder;
+  final PasswordEncoder passwordEncoder;
 
-  @Autowired
-  JwtTokenProvider tokenProvider;
+  final JwtTokenProvider tokenProvider;
 
-  @PostMapping("/signin")
+  public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider tokenProvider) {
+    this.authenticationManager = authenticationManager;
+    this.userRepository = userRepository;
+    this.roleRepository = roleRepository;
+    this.passwordEncoder = passwordEncoder;
+    this.tokenProvider = tokenProvider;
+  }
+
+  @PostMapping ("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-    Authentication authentication = authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
+    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsernameOrEmail(), loginRequest.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -64,7 +67,7 @@ public class AuthController {
     return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
   }
 
-  @PostMapping("/signup")
+  @PostMapping ("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
     if (userRepository.existsByUsername(signUpRequest.getUsername())) {
       return new ResponseEntity<>(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
@@ -74,8 +77,7 @@ public class AuthController {
       return new ResponseEntity<>(new ApiResponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
     }
 
-    User user = new User(signUpRequest.getCorporateName(), signUpRequest.getUsername(), signUpRequest.getEmail(),
-        signUpRequest.getPassword(), signUpRequest.getCnpj(), signUpRequest.getPhone());
+    User user = new User(signUpRequest.getCorporateName(), signUpRequest.getUsername(), signUpRequest.getEmail(), signUpRequest.getPassword(), signUpRequest.getCnpj(), signUpRequest.getPhone());
 
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -93,8 +95,7 @@ public class AuthController {
 
     User result = userRepository.save(user);
 
-    URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}")
-        .buildAndExpand(result.getUsername()).toUri();
+    URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/users/{username}").buildAndExpand(result.getUsername()).toUri();
 
     return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
   }

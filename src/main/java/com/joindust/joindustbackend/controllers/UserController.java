@@ -46,17 +46,20 @@ import com.joindust.joindustbackend.utils.AppConstants;
 @Api (value = "User", description = "REST API for User", tags = {"User"})
 public class UserController {
 
-  @Autowired
-  private UserRepository userRepository;
+  private final UserRepository userRepository;
 
-  @Autowired
-  private CollectRepository collectRepository;
+  private final CollectRepository collectRepository;
 
-  @Autowired
-  private CollectService collectService;
+  private final CollectService collectService;
 
 
   private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+  public UserController(UserRepository userRepository, CollectRepository collectRepository, CollectService collectService) {
+    this.userRepository = userRepository;
+    this.collectRepository = collectRepository;
+    this.collectService = collectService;
+  }
 
   @GetMapping ("/me")
   public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
