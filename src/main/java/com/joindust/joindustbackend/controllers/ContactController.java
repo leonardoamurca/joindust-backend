@@ -43,7 +43,7 @@ public class ContactController {
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{contactId}").buildAndExpand(contact.getId()).toUri();
 
-    return ResponseEntity.created(location).body(new ApiResponse(true, "Contact Created Successfully"));
+    return ResponseEntity.created(location).body(new ApiResponse(true, "Contato adicionado com sucesso!"));
   }
 
   @DeleteMapping ("/{contactId}")

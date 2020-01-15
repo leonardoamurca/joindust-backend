@@ -1,11 +1,10 @@
 package com.joindust.joindustbackend.security;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.joindust.joindustbackend.models.Role;
 import com.joindust.joindustbackend.models.User;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -28,24 +27,24 @@ public class UserPrincipal implements UserDetails {
   @JsonIgnore
   private String password;
 
+  private Set<Role> roles = new HashSet<>();
+
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserPrincipal(Long id, String name, String username, String email, String password,
-      Collection<? extends GrantedAuthority> authorities) {
+  public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities, Set<Role> roles) {
     this.id = id;
     this.name = name;
     this.username = username;
     this.email = email;
     this.password = password;
     this.authorities = authorities;
+    this.roles = roles;
   }
 
   public static UserPrincipal create(User user) {
-    List<GrantedAuthority> authorities = user.getRoles().stream()
-        .map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
+    List<GrantedAuthority> authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
-    return new UserPrincipal(user.getId(), user.getCorporateName(), user.getUsername(), user.getEmail(),
-        user.getPassword(), authorities);
+    return new UserPrincipal(user.getId(), user.getCorporateName(), user.getUsername(), user.getEmail(), user.getPassword(), authorities, user.getRoles());
   }
 
   public Long getId() {
@@ -97,10 +96,8 @@ public class UserPrincipal implements UserDetails {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     UserPrincipal that = (UserPrincipal) o;
     return Objects.equals(id, that.id);
   }
@@ -109,5 +106,9 @@ public class UserPrincipal implements UserDetails {
   public int hashCode() {
 
     return Objects.hash(id);
+  }
+
+  public Set<Role> getRoles() {
+    return roles;
   }
 }

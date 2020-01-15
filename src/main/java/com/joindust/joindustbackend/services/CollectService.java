@@ -81,11 +81,11 @@ public class CollectService {
 
   private void validatePageNumberAndSize(int page, int size) {
     if (page < 0) {
-      throw new BadRequestException("Page number cannot be less than zero.");
+      throw new BadRequestException("O número da página não pode ser menor que zero!");
     }
 
     if (size > AppConstants.MAX_PAGE_SIZE) {
-      throw new BadRequestException("Page size must not be greater than " + AppConstants.MAX_PAGE_SIZE);
+      throw new BadRequestException("O tamanho da página não pode ser maior que " + AppConstants.MAX_PAGE_SIZE);
     }
   }
 
@@ -116,7 +116,7 @@ public class CollectService {
 
     collectRepository.deleteById(collect.getId());
 
-    return new DeletedResponse(collect.getId(), "Collect deleted successfully!");
+    return new DeletedResponse(collect.getId(), "Coleta excluída com sucesso!");
   }
 
 }
