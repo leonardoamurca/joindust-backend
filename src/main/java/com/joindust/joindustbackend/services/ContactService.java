@@ -76,11 +76,11 @@ public class ContactService {
 
   private void validatePageNumberAndSize(int page, int size) {
     if (page < 0) {
-      throw new BadRequestException("Page number cannot be less than zero.");
+      throw new BadRequestException("O número da página não pode ser menor que zero!");
     }
 
     if (size > AppConstants.MAX_PAGE_SIZE) {
-      throw new BadRequestException("Page size must not be greater than " + AppConstants.MAX_PAGE_SIZE);
+      throw new BadRequestException("O tamanho da página não pode ser maior que " + AppConstants.MAX_PAGE_SIZE);
     }
   }
 
@@ -90,6 +90,6 @@ public class ContactService {
 
     contactRepository.deleteById(contact.getId());
 
-    return new DeletedResponse(contact.getId(), "Contact deleted successfully!");
+    return new DeletedResponse(contact.getId(), "Contato removido com sucesso!");
   }
 }

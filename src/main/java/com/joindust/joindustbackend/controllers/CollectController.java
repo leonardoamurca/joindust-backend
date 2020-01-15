@@ -55,7 +55,7 @@ public class CollectController {
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{collectId}").buildAndExpand(collect.getId()).toUri();
 
-    return ResponseEntity.created(location).body(new ApiResponse(true, "Collect Created Successfully"));
+    return ResponseEntity.created(location).body(new ApiResponse(true, "Coleta criada com sucesso!"));
   }
 
   @GetMapping ("/{collectId}")
