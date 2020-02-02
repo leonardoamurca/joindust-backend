@@ -2,23 +2,15 @@ package com.joindust.joindustbackend.controllers;
 
 import java.net.URI;
 
+import com.joindust.joindustbackend.payloads.requests.ProfileImageRequest;
 import io.swagger.annotations.Api;
 
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.joindust.joindustbackend.exceptions.ResourceNotFoundException;
@@ -27,8 +19,6 @@ import com.joindust.joindustbackend.models.User;
 import com.joindust.joindustbackend.payloads.requests.ContactRequest;
 import com.joindust.joindustbackend.payloads.responses.ApiResponse;
 import com.joindust.joindustbackend.payloads.responses.CollectResponse;
-import com.joindust.joindustbackend.payloads.responses.ContactResponse;
-import com.joindust.joindustbackend.payloads.responses.DeletedResponse;
 import com.joindust.joindustbackend.payloads.responses.PagedResponse;
 import com.joindust.joindustbackend.payloads.responses.UserIdentityAvailability;
 import com.joindust.joindustbackend.payloads.responses.UserProfileReponse;
@@ -38,7 +28,6 @@ import com.joindust.joindustbackend.repositories.UserRepository;
 import com.joindust.joindustbackend.security.CurrentUser;
 import com.joindust.joindustbackend.security.UserPrincipal;
 import com.joindust.joindustbackend.services.CollectService;
-import com.joindust.joindustbackend.services.ContactService;
 import com.joindust.joindustbackend.utils.AppConstants;
 
 @RestController
@@ -94,6 +83,13 @@ public class UserController {
   public PagedResponse<CollectResponse> getCollectionsCreatedBy(@PathVariable (value = "username") String username, @CurrentUser UserPrincipal currentUser, @RequestParam (value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page, @RequestParam (value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
 
     return collectService.getCollectionsByUsername(username, currentUser, page, size);
+  }
+
+  @PatchMapping ("/image")
+  public ApiResponse updateProfileImage(@RequestBody ProfileImageRequest request, @CurrentUser UserPrincipal currentUser) {
+    userRepository.updateProfileImage(request.getProfileImage(), currentUser.getId());
+
+    return new ApiResponse(true, "Imagem de perfil atualizada!");
   }
 
 
