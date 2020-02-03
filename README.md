@@ -1,8 +1,6 @@
 # Join Dust Backend 
 
-This project is a `REST API` which is consumed by [Join Dust Frontend](https://github.com/leonardoamurca/join-dust-frontend) project.
-
-
+This project is a `REST API` which is consumed by [Join Dust Frontend](https://github.com/leonardoamurca/joindust-frontend) project.
 
 
 ## License
