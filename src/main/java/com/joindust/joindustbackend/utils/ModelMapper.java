@@ -10,7 +10,7 @@ import com.joindust.joindustbackend.payloads.responses.UserSummary;
 public class ModelMapper {
   public static CollectResponse mapCollectToCollectReponse(Collect collect, User creator) {
     CollectResponse collectResponse = new CollectResponse();
-    UserSummary userSummary = new UserSummary(creator.getId(), creator.getCorporateName(), creator.getPhone(), creator.getEmail(), creator.getRoles());
+    UserSummary userSummary = new UserSummary(creator.getId(), creator.getCorporateName(), creator.getPhone(), creator.getEmail(), creator.getProfileImage(), creator.getPhone(), creator.getRoles());
 
     collectResponse.setId(collect.getId());
     collectResponse.setQuantity(collect.getQuantity());
@@ -23,7 +23,7 @@ public class ModelMapper {
 
   public static ContactResponse mapContactToContactReponse(Contact contact, User recycler) {
     ContactResponse contactResponse = new ContactResponse();
-    UserSummary userSummary = new UserSummary(recycler.getId(), recycler.getCorporateName(), recycler.getPhone(), recycler.getEmail(), recycler.getRoles());
+    UserSummary userSummary = new UserSummary(recycler.getId(), recycler.getCorporateName(), recycler.getPhone(), recycler.getEmail(), recycler.getProfileImage(), recycler.getPhone(), recycler.getRoles());
 
     contactResponse.setId(contact.getId());
     contactResponse.setEmail(contact.getEmail());

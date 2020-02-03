@@ -2,10 +2,7 @@ package com.joindust.joindustbackend.controllers;
 
 import com.joindust.joindustbackend.models.Contact;
 import com.joindust.joindustbackend.payloads.requests.ContactRequest;
-import com.joindust.joindustbackend.payloads.responses.ApiResponse;
-import com.joindust.joindustbackend.payloads.responses.ContactResponse;
-import com.joindust.joindustbackend.payloads.responses.DeletedResponse;
-import com.joindust.joindustbackend.payloads.responses.PagedResponse;
+import com.joindust.joindustbackend.payloads.responses.*;
 import com.joindust.joindustbackend.security.CurrentUser;
 import com.joindust.joindustbackend.security.UserPrincipal;
 import com.joindust.joindustbackend.services.ContactService;
@@ -48,7 +45,7 @@ public class ContactController {
 
   @DeleteMapping ("/{contactId}")
   @PreAuthorize ("hasRole('ROLE_RECYCLER')")
-  public DeletedResponse deleteCollectById(@CurrentUser UserPrincipal currentUser, @PathVariable Long contactId) {
+  public DeletedContact deleteCollectById(@CurrentUser UserPrincipal currentUser, @PathVariable Long contactId) {
     return contactService.deleteContactById(contactId, currentUser);
   }
 }

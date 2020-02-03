@@ -27,24 +27,30 @@ public class UserPrincipal implements UserDetails {
   @JsonIgnore
   private String password;
 
+  private String profileImage;
+
+  private String phone;
+
   private Set<Role> roles = new HashSet<>();
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities, Set<Role> roles) {
+  public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities, String profileImage, String phone, Set<Role> roles) {
     this.id = id;
     this.name = name;
     this.username = username;
     this.email = email;
     this.password = password;
     this.authorities = authorities;
+    this.profileImage = profileImage;
+    this.phone = phone;
     this.roles = roles;
   }
 
   public static UserPrincipal create(User user) {
     List<GrantedAuthority> authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
-    return new UserPrincipal(user.getId(), user.getCorporateName(), user.getUsername(), user.getEmail(), user.getPassword(), authorities, user.getRoles());
+    return new UserPrincipal(user.getId(), user.getCorporateName(), user.getUsername(), user.getEmail(), user.getPassword(), authorities, user.getProfileImage(), user.getPhone(), user.getRoles());
   }
 
   public Long getId() {
@@ -57,6 +63,14 @@ public class UserPrincipal implements UserDetails {
 
   public String getEmail() {
     return email;
+  }
+
+  public String getProfileImage() {
+    return profileImage;
+  }
+
+  public String getPhone() {
+    return phone;
   }
 
   @Override

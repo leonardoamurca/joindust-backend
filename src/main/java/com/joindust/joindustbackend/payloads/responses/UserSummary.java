@@ -17,6 +17,8 @@ public class UserSummary {
   private String corporateName;
   private String username;
   private String email;
+  private String profileImage;
+  private String phone;
   private Set<Role> roles = new HashSet<>();
 
 }

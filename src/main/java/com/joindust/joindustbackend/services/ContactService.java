@@ -10,7 +10,7 @@ import com.joindust.joindustbackend.models.Contact;
 import com.joindust.joindustbackend.models.User;
 import com.joindust.joindustbackend.payloads.requests.ContactRequest;
 import com.joindust.joindustbackend.payloads.responses.ContactResponse;
-import com.joindust.joindustbackend.payloads.responses.DeletedResponse;
+import com.joindust.joindustbackend.payloads.responses.DeletedContact;
 import com.joindust.joindustbackend.payloads.responses.PagedResponse;
 import com.joindust.joindustbackend.repositories.ContactRepository;
 import com.joindust.joindustbackend.repositories.UserRepository;
@@ -84,12 +84,12 @@ public class ContactService {
     }
   }
 
-  public DeletedResponse deleteContactById(Long contactId, UserPrincipal currentUser) {
+  public DeletedContact deleteContactById(Long contactId, UserPrincipal currentUser) {
 
     Contact contact = contactRepository.findById(contactId).orElseThrow(() -> new ResourceNotFoundException("Poll", "id", contactId));
 
     contactRepository.deleteById(contact.getId());
 
-    return new DeletedResponse(contact.getId(), "Contato removido com sucesso!");
+    return new DeletedContact(contact.getId(), "Contato removido com sucesso!");
   }
 }

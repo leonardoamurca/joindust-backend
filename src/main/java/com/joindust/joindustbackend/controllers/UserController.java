@@ -53,7 +53,7 @@ public class UserController {
   @GetMapping ("/me")
   public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
 
-    return new UserSummary(currentUser.getId(), currentUser.getName(), currentUser.getUsername(), currentUser.getEmail(), currentUser.getRoles());
+    return new UserSummary(currentUser.getId(), currentUser.getName(), currentUser.getUsername(), currentUser.getEmail(), currentUser.getProfileImage(), currentUser.getPhone(), currentUser.getRoles());
   }
 
   @GetMapping ("/checkUsernameAvailability")
