@@ -1,6 +1,4 @@
 name: Deploy Join Dust [prod]
-env:
-  SERVER: development
 
 on: 
   push:
