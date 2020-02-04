@@ -44,24 +44,3 @@ jobs:
           name: artifact
           path: /target/joindust-backend.jar
     
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    name: Build Docker container and deploy to Kubernetes??
-    steps:
-      - uses: actions/checkout@v1
-      - name: Download Maven build artifact
-        uses: actions/download-artifact@v1
-        with:
-          name: artifact
-      - name: Build Docker Container
-        run: |
-          mkdir -p joindust-backend/target
-          mv artifact/joindust-backend.jar joindust-backend/target
-          docker build -t somevendor/path joindust-backend
-      - name: Access Secretes
-        env:
-          CI: true
-          app.JWT_SECRET: ${{ app.JWT_SECRET }}
-          app.JWT_EXPIRATION_IN_MS:  ${{ app.JWT_EXPIRATION_IN_MS }}
-      
